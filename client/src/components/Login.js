@@ -1,6 +1,6 @@
 import React from "react";
 import { Formik, Field, Form } from 'formik';
-import AxiosAuth from '../axios/AxiosAuth';
+import axios from 'axios';
 
 const initialValues = {
   username: '',
@@ -12,7 +12,7 @@ export default function Login (props) {
   // when you have handled the token, navigate to the BubblePage route
 
   const toLogin = (formValues, actions) => {
-    AxiosAuth().post('http://localhost:5000/api/login', {
+    axios.post('http://localhost:5000/api/login', {
       username: formValues.username,
       password: formValues.password
     })
