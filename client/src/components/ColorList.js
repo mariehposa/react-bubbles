@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import AxiosAuth from '../axios/AxiosAuth'
+import { Formik, Form, Field } from 'formik';
 
 const initialColor = {
   color: "",
@@ -101,6 +102,15 @@ const ColorList = ({ colors, updateColors }) => {
       )}
       <div className="spacer" />
       {/* stretch - build another form here to add a color */}
+      <Formik 
+        render={props => {
+          return (
+            <Form>
+              
+            </Form>
+          );
+        }}
+      />
     </div>
   );
 };
