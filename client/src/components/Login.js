@@ -7,7 +7,7 @@ const initialValues = {
   password: ''
 }
 
-export default function Login () {
+export default function Login (props) {
   // make a post request to retrieve a token from the api
   // when you have handled the token, navigate to the BubblePage route
 
@@ -17,15 +17,22 @@ export default function Login () {
       password: formValues.password
     })
       .then( res => {
-        localStorage.setItem('token', res.data.payload)
+        console.log(res)
+        localStorage.setItem('token', res.data.payload);
+        props.history.push('bubblePage')
       })
-      
+      .catch( err => {
+        alert(err.message)
+      })
+    actions.resetForm()
   }
   return (
     <>
       <h1>Welcome to the Bubble App!</h1>
       <p>Build a login page here</p>
       <Formik 
+        initialValues={initialValues}
+        onSubmit={toLogin}
         render = { props => {
           return (
             <Form>
@@ -38,6 +45,4 @@ export default function Login () {
       />
     </>
   );
-};
-
-export default Login;
+}
