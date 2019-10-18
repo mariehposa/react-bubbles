@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 import AxiosAuth from '../axios/AxiosAuth'
-import { Formik, Form, Field } from 'formik';
+import { Formik } from 'formik';
+import { StyledForm, StyledField, StyledButton } from './Styles';
 
 const initialColor = {
   color: "",
   code: { hex: "" }
 };
+
+const initialForm = {
+  color: '',
+  code: ''
+}
 
 const ColorList = ({ colors, updateColors }) => {
   // console.log(colors);
@@ -27,12 +33,12 @@ const ColorList = ({ colors, updateColors }) => {
 
     AxiosAuth().put(`http://localhost:5000/api/colors/${colorToEdit.id}`, colorToEdit)
      .then(res => {
-      console.log(res.data);
+      // console.log(res.data);
      const remainingColors = colors.filter(color => color.id !== colorToEdit.id)
       updateColors([...remainingColors, res.data])
      })
      .catch(err => {
-       console.log(err);
+      //  console.log(err);
      })
   };
 
@@ -50,6 +56,21 @@ const ColorList = ({ colors, updateColors }) => {
       // console.log(err)
     })
   };
+
+  const onAddColor = (formValues, actions) => {
+    AxiosAuth().post('http://localhost:5000/api/colors', {
+      color: formValues.color,
+      code: {hex: formValues.code},
+      id: Date.now()
+    })
+      .then( res => {
+        updateColors(res.data)
+      })
+      .catch( err => {
+        alert(err.message)
+      })
+    actions.resetForm()
+  }
 
   return (
     <div className="colors-wrap">
@@ -103,11 +124,15 @@ const ColorList = ({ colors, updateColors }) => {
       <div className="spacer" />
       {/* stretch - build another form here to add a color */}
       <Formik 
+        initialValues={initialForm}
+        onSubmit={onAddColor}
         render={props => {
           return (
-            <Form>
-              
-            </Form>
+            <StyledForm>
+              <StyledField name="color" placeholder="Enter color" />
+              <StyledField name="code" placeholder="Enter code" />
+              <StyledButton type="Submit">Add Color</StyledButton>
+            </StyledForm>
           );
         }}
       />

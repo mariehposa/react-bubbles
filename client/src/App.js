@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Login from "./components/Login";
 import "./styles.scss";
-import { withRouter, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import BubblePage from './components/BubblePage';
 
 export function App() {
